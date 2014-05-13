@@ -6,6 +6,8 @@
 
 package main;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -53,6 +55,18 @@ public class MainJPanel extends javax.swing.JPanel {
         loginJButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 loginJButtonMouseClicked(evt);
+            }
+        });
+
+        passwordJField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordJFieldKeyPressed(evt);
+            }
+        });
+
+        emailJFrield.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                emailJFrieldKeyPressed(evt);
             }
         });
 
@@ -140,6 +154,20 @@ public class MainJPanel extends javax.swing.JPanel {
             }            
         }               
     }//GEN-LAST:event_loginJButtonMouseClicked
+
+    private void emailJFrieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailJFrieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.loginJButtonMouseClicked(null);
+        } 
+    }//GEN-LAST:event_emailJFrieldKeyPressed
+
+    private void passwordJFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordJFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.loginJButtonMouseClicked(null);
+        } 
+    }//GEN-LAST:event_passwordJFieldKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
