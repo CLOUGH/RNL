@@ -9,6 +9,7 @@ import rnl.SQLiteJDBC;
 public class User {
     private String fname;
     private String lname;
+    private String email;
     private String type;
     private int id;
     
@@ -16,12 +17,13 @@ public class User {
         try {            
             SQLiteJDBC db = new SQLiteJDBC();
 
-            String sql = String.format("SELECT user_id, fname, lname FROM users WHERE user_id ='%d'", user_id);
+            String sql = String.format("SELECT user_id, fname, lname, email FROM users WHERE user_id ='%d'", user_id);
             ResultSet resultSet = db.query(sql);
 
             if(resultSet.next()) {
                 fname = resultSet.getString("fname");
                 lname = resultSet.getString("lname");
+                email = resultSet.getString("email");
                 id = resultSet.getInt("user_id");
             }
         }catch(Exception e) {
@@ -47,7 +49,7 @@ public class User {
         }        
         return user_type;
     }
-    
+        
     public String getName(){
         return fname+' '+lname;
     }
@@ -56,5 +58,8 @@ public class User {
     }
     public String getType(){
         return type;
+    }
+    public String getEmail(){
+        return email;
     }
 }
