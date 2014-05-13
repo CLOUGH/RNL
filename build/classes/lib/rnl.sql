@@ -40,3 +40,12 @@ CREATE TABLE customers(
 
 INSERT INTO customers (user_id,gender,dob,trn,phone)
 VALUES ('4','Male','1992-02-12','123-456-789','3937739');
+
+CREATE TABLE merchants(
+    reg_num INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    branch_num INTEGER,
+    merchant_name VARCHAR(30) NOT NULL,
+    address VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(30),
+    email VARCHAR(30) NOT NULL
+);
