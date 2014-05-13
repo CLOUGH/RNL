@@ -6,7 +6,7 @@
 
 package main;
 
-/**
+/**main
  *
  * @author clough
  */

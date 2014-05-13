@@ -14,7 +14,7 @@ public class RNL {
        mainJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        
        //Add the main pannel to jframe
-       MainJPanel mainJPanel =  new MainJPanel();
+       MainJPanel mainJPanel =  new MainJPanel(mainJFrame);
        mainJFrame.add(mainJPanel);
        
        mainJFrame.pack();

@@ -6,6 +6,11 @@
 
 package main;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import rnl.*;
+
 /**
  *
  * @author clough
@@ -15,8 +20,10 @@ public class MainJPanel extends javax.swing.JPanel {
     /**
      * Creates new form MainPanel
      */
-    public MainJPanel() {
+    JFrame mainJFrame; 
+    public MainJPanel(JFrame mainJFrame) {
         initComponents();
+        this.mainJFrame = mainJFrame;
     }
 
     /**
@@ -31,9 +38,9 @@ public class MainJPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jTextField2 = new javax.swing.JTextField();
+        loginJButton = new javax.swing.JButton();
+        passwordJField = new javax.swing.JPasswordField();
+        emailJFrield = new javax.swing.JTextField();
 
         jLabel1.setText("Email");
 
@@ -42,16 +49,21 @@ public class MainJPanel extends javax.swing.JPanel {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("RNL Login");
 
-        jButton1.setText("Login");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        loginJButton.setText("Login");
+        loginJButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                loginJButtonMouseClicked(evt);
+            }
+        });
+        loginJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                loginJButtonActionPerformed(evt);
             }
         });
 
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+        passwordJField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
+                passwordJFieldActionPerformed(evt);
             }
         });
 
@@ -67,15 +79,15 @@ public class MainJPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(43, 43, 43)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(loginJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel2))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
-                                    .addComponent(jTextField2))))))
+                                    .addComponent(passwordJField, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                                    .addComponent(emailJFrield))))))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -85,32 +97,76 @@ public class MainJPanel extends javax.swing.JPanel {
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(emailJFrield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordJField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(loginJButton)
                 .addContainerGap(90, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void loginJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginJButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_loginJButtonActionPerformed
 
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+    private void passwordJFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordJFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
+    }//GEN-LAST:event_passwordJFieldActionPerformed
+
+    private void loginJButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginJButtonMouseClicked
+        /*
+        *If the login button is clicked then collect data entered in form and
+        *login user.
+        */
+        String email = emailJFrield.getText();
+        String password = new String(passwordJField.getPassword());
+        
+        int user_id = Auth.login(email,password);
+        if(user_id == -1)  {
+            JOptionPane.showMessageDialog(mainJFrame, 
+                    "Username or password is not correct.",
+                    "Login Error",  JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+        /*
+        * From the user id get the user type and redirect them to the correct
+        * main page
+        */        
+            String user_type = User.getType(user_id);
+            switch(user_type){
+                case "admin":
+                    break;
+                case "csa":
+                    //if its a CSA then destroy the current pannel and open another
+                    mainJFrame.getContentPane().remove(this);
+
+                    CSAMainMenu csaMainMenu = new CSAMainMenu(mainJFrame);
+                    mainJFrame.getContentPane().add(csaMainMenu);
+
+                    mainJFrame.getContentPane().invalidate();
+                    mainJFrame.getContentPane().revalidate();
+                    mainJFrame.getContentPane().repaint();
+                    break;
+                case "customer":
+                    break;
+                case "merchant":
+                    break;
+            }            
+        }        
+        
+        
+    }//GEN-LAST:event_loginJButtonMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField emailJFrield;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JButton loginJButton;
+    private javax.swing.JPasswordField passwordJField;
     // End of variables declaration//GEN-END:variables
 }
