@@ -55,17 +55,6 @@ public class MainJPanel extends javax.swing.JPanel {
                 loginJButtonMouseClicked(evt);
             }
         });
-        loginJButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginJButtonActionPerformed(evt);
-            }
-        });
-
-        passwordJField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordJFieldActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -108,14 +97,6 @@ public class MainJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loginJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginJButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_loginJButtonActionPerformed
-
-    private void passwordJFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordJFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordJFieldActionPerformed
-
     private void loginJButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginJButtonMouseClicked
         /*
         *If the login button is clicked then collect data entered in form and
@@ -140,10 +121,12 @@ public class MainJPanel extends javax.swing.JPanel {
                 case "admin":
                     break;
                 case "csa":
+                    RegularCSA csaUser = new RegularCSA(user_id);
+                    
                     //if its a CSA then destroy the current pannel and open another
                     mainJFrame.getContentPane().remove(this);
 
-                    CSAMainMenu csaMainMenu = new CSAMainMenu(mainJFrame);
+                    CSAMainMenu csaMainMenu = new CSAMainMenu(mainJFrame,csaUser);
                     mainJFrame.getContentPane().add(csaMainMenu);
 
                     mainJFrame.getContentPane().invalidate();
@@ -155,9 +138,7 @@ public class MainJPanel extends javax.swing.JPanel {
                 case "merchant":
                     break;
             }            
-        }        
-        
-        
+        }               
     }//GEN-LAST:event_loginJButtonMouseClicked
 
 
