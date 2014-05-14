@@ -49,3 +49,5 @@ CREATE TABLE merchants(
     phone_number VARCHAR(30),
     email VARCHAR(30) NOT NULL
 );
+INSERT INTO merchants (branch_num,merchant_name, address, phone_number, email)
+VALUES ('1','MegaMart','Portmore','876-456-789','merchant@megamart.com.jm');
