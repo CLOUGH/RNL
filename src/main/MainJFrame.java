@@ -35,6 +35,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(530, 500));
+        setResizable(false);
 
         jMenu1.setText("File");
 

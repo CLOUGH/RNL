@@ -49,5 +49,20 @@ CREATE TABLE merchants(
     phone_number VARCHAR(30),
     email VARCHAR(30) NOT NULL
 );
-INSERT INTO merchants (branch_num,merchant_name, address, phone_number, email)
-VALUES ('1','MegaMart','Portmore','876-456-789','merchant@megamart.com.jm');
+INSERT INTO merchants (reg_num,branch_num,merchant_name, address, phone_number, email)
+VALUES ('1','1','MegaMart','Portmore','876-456-789','merchant@megamart.com.jm');
+
+CREATE TABLE loyalty_programs(
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    merchant INTEGER NOT NULL,
+    program_name VARCHAR(30) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    program_type VARHCAR(30) NOT NULL,
+    description VARCHAR(1000),
+
+    FOREIGN KEY (merchant) REFERENCES merchants(reg_num) ON DELETE CASCADE ON UPDATE CASCADE    
+);
+
+INSERT INTO loyalty_programs(id,merchant,program_name, start_date,end_date,program_type,description)
+VALUES('1','1','MegaMart Magna','2013-01-01','2016-01-01','magna','Magna program thats offered by MegaMart');

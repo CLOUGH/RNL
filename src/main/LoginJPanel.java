@@ -17,13 +17,13 @@ import rnl.*;
  *
  * @author clough
  */
-public class MainJPanel extends javax.swing.JPanel {
+public class LoginJPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form MainPanel
      */
     JFrame mainJFrame; 
-    public MainJPanel(JFrame mainJFrame) {
+    public LoginJPanel(JFrame mainJFrame) {
         initComponents();
         this.mainJFrame = mainJFrame;
     }
@@ -48,6 +48,7 @@ public class MainJPanel extends javax.swing.JPanel {
 
         jLabel2.setText("Password");
 
+        jLabel3.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("RNL Login");
 
@@ -79,17 +80,17 @@ public class MainJPanel extends javax.swing.JPanel {
                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(117, 117, 117)
+                .addGap(65, 65, 65)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(loginJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(passwordJField)
-                            .addComponent(emailJFrield, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(passwordJField, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                            .addComponent(emailJFrield))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

@@ -22,9 +22,9 @@ public class RNL {
        MainJFrame mainJFrame = new MainJFrame();
        mainJFrame.setLayout(new BorderLayout());
        mainJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       
+       mainJFrame.setTitle("Login");
        //Add the main pannel to jframe
-       MainJPanel mainJPanel =  new MainJPanel(mainJFrame);
+       LoginJPanel mainJPanel =  new LoginJPanel(mainJFrame);
        mainJFrame.add(mainJPanel);
        
        mainJFrame.pack();

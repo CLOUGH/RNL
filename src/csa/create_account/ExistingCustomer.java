@@ -77,7 +77,6 @@ public class ExistingCustomer extends javax.swing.JPanel {
         while(customerIterator.hasNext()) {
            this.addRow(customerIterator.next());
         }
-        
     }
     private void addRow(Customer customer){
         DefaultTableModel tableModel = (DefaultTableModel) this.jTable1.getModel();

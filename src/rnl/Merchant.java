@@ -25,6 +25,7 @@ public class Merchant {
                 this.email = resultSet.getString("email");
                 this.merchant_name = resultSet.getString("merchant_name");
                 this.phone = resultSet.getString("phone_number");
+                this.address = resultSet.getString("address");
             }
         }catch(Exception e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -36,7 +37,7 @@ public class Merchant {
         SQLiteJDBC db = new SQLiteJDBC();
         ArrayList<Merchant> merchants = new ArrayList<Merchant>();
         
-        String sql = "SELECT * FROM merchants";
+        String sql = "SELECT reg_num FROM merchants";
         ResultSet resultSet = db.query(sql);
         
         try {            
@@ -52,8 +53,20 @@ public class Merchant {
         return merchants;
     }
     
-    public String getMerchantName(){
+    public String getName(){
         return this.merchant_name;
+    }
+    public int getRegNum(){
+        return this.reg_num;
+    }
+    public String getBranch(){
+        return String.valueOf(this.branch_num);
+    }
+    public String getAddress(){
+        return this.address;
+    }
+    public String getEmail(){
+        return this.email;
     }
 }
 
