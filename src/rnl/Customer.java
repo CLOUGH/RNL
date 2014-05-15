@@ -1,7 +1,10 @@
 package rnl;
 
 import rnl.*;
-import java.sql.*;
+import java.util.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Customer extends User{
@@ -24,11 +27,20 @@ public class Customer extends User{
                 trn = resultSet.getString("trn");
                 phone = resultSet.getString("phone");
             }
+            db.close();
         }catch(Exception e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
     } 
+    public Customer(String fname, String lname, String email,String password,String gender, Date dob, String trn, String phone){
+        super(fname,lname,email,password,"customer");
+        
+        this.gender = gender;
+        this.dob = dob;
+        this.trn = trn;
+        this.phone = phone;       
+    }
     public static ArrayList<Customer> getAll(){
         
         SQLiteJDBC db = new SQLiteJDBC();
@@ -42,6 +54,7 @@ public class Customer extends User{
                 Customer customer = new Customer(resultSet.getInt("user_id"));
                 customers.add(customer);
             }
+            db.close();
         }catch(Exception e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
@@ -49,12 +62,40 @@ public class Customer extends User{
         
         return customers;
     }
-    /**
-     * @TODO
-     * Creates a new customer and store it to the database
-     */
-    public static void createCustomer(){
+/**
+ * Creates a new customer and store it to the database
+ * Same as createCustomer in the documentation
+ * Name change to allow polymophism
+ */
+    @Override
+    public boolean store() throws SQLException{
         
+        if(super.store()== false){
+            return false;
+        }    
+        else if(super.getID()==-1)
+        {
+            return false;
+        }
+        
+        SQLiteJDBC db = new SQLiteJDBC();
+        String sql = String.format(
+            "INSERT INTO customers (user_id,gender,dob,trn,phone)" +
+            "VALUES ('%d','%s','%s','%s','%s');",
+            super.getID(),
+            this.gender,
+            (new SimpleDateFormat("dd-MM-yyyy")).format(this.dob), 
+            this.trn,
+            this.phone
+        );
+        if(db.updateQuery(sql)>0){
+            db.close();
+            return true;
+        }
+        else{
+            db.close();
+            return false;
+        }        
     }
     
     /**
@@ -65,7 +106,24 @@ public class Customer extends User{
     {
         
     }
-    
+    public static boolean TRNExist(String trn){
+        SQLiteJDBC db = new SQLiteJDBC();
+        String sql = String.format("SELECT user_id FROM customers WHERE trn='%s'", trn);
+        ResultSet resultSet = db.query(sql);
+        
+        try {          
+            if(resultSet.next()){
+                db.close();
+                return true;
+            }            
+            db.close();
+        }catch(SQLException e) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        } 
+        
+        return false;
+    }
     public String getGender(){
         return gender;
     }

@@ -26,6 +26,7 @@ public class Auth {
             if(result_set!=null && result_set.next()!=false ) {
                 user_id = result_set.getInt("user_id");                
             }
+            db.close();
         }catch(Exception e)  {
           System.err.println( e.getClass().getName() + ": " + e.getMessage() );
           System.exit(0);

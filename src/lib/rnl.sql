@@ -66,3 +66,19 @@ CREATE TABLE loyalty_programs(
 
 INSERT INTO loyalty_programs(id,merchant,program_name, start_date,end_date,program_type,description)
 VALUES('1','1','MegaMart Magna','2013-01-01','2016-01-01','magna','Magna program thats offered by MegaMart');
+
+CREATE TABLE card_accounts(
+    account_num INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    user_id INTEGER NOT NULL,
+    expiry_date DATE NOT NULL,
+    issuer INTEGER NOT NULL,
+    points_earned INTEGER NOT NULL,
+    loyalty_program INTEGER NOT NULL,
+    
+    FOREIGN KEY (loyalty_program) REFERENCES loyalty_program(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (issuer) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE   
+);
+
+INSERT INTO card_accounts(account_num,loyalty_program, user_id,expiry_date,issuer,points_earned)
+VALUES('1','1','4', '2016-01-01','2','100');

@@ -10,7 +10,7 @@ import rnl.*;
  *
  * @author clough
  */
-public class RegularCSA extends User{
+public class RegularCSA extends CSA{
 
     public RegularCSA(int user_id) {
         super(user_id);
@@ -19,6 +19,6 @@ public class RegularCSA extends User{
     @Override
     public String getType()
     {
-        return "Regular";
+        return "Regular CSA";
     }
 }

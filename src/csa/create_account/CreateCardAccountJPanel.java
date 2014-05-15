@@ -9,8 +9,14 @@ package csa.create_account;
 import csa.create_account.ExistingCustomer;
 import csa.create_account.NewCustomer;
 import java.awt.BorderLayout;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,36 +29,40 @@ public class CreateCardAccountJPanel extends javax.swing.JPanel {
     private String previousTitle;
     private final JFrame mainJFrame;
     private final JPanel previousJPanel;
-    private final RegularCSA csaUser;
+    private final CSA csaUser;
     private final NewCustomer newCustomerJPanel;
     private final ExistingCustomer existingCustomerJPanel;
     private final SelectMerchantJFrame selectMerchantJFrame;
     private SelectLoyaltyProgramJFrame selectLoyaltyProgramJFrame;
     
-    public CreateCardAccountJPanel(JFrame mainJFrame,JPanel previousJPanel,RegularCSA csaUser) {
+    public CreateCardAccountJPanel(JFrame mainJFrame,JPanel previousJPanel,CSA csaUser) {
         initComponents();
+        
         this.mainJFrame = mainJFrame;
+        this.mainJFrame.setPreferredSize(this.getPreferredSize());
+        
         previousTitle = mainJFrame.getTitle();
-        mainJFrame.setTitle(JFRAME_TITLE);
+        this.mainJFrame.setTitle(JFRAME_TITLE);
+        
         
         this.previousJPanel = previousJPanel;
         this.csaUser = csaUser;      
         
         newCustomerJPanel = new NewCustomer();
-        existingCustomerJPanel = new ExistingCustomer();
-        
+        existingCustomerJPanel = new ExistingCustomer();        
         selectMerchantJFrame = new SelectMerchantJFrame();
         selectLoyaltyProgramJFrame = new SelectLoyaltyProgramJFrame(null);
         
         userJPanelNew.setLayout(new BorderLayout());
         userJPanelNew.add(newCustomerJPanel);    
+        this.mainJFrame.pack();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         CanelJButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        SaveJButton = new javax.swing.JButton();
         userJPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         userTypeJComboBox = new javax.swing.JComboBox();
@@ -60,11 +70,13 @@ public class CreateCardAccountJPanel extends javax.swing.JPanel {
         SelectMechantJButton = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         merchantNameJLabel = new javax.swing.JLabel();
         SelectLoyaltyProgramJButton = new javax.swing.JButton();
         loyaltyProgramNameJLabel = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        ExpiryDateJTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        pointsEarnedJTextField = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
         userJPanelNew = new javax.swing.JPanel();
 
         CanelJButton.setText("Cancel");
@@ -74,7 +86,12 @@ public class CreateCardAccountJPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setText("Save");
+        SaveJButton.setText("Save");
+        SaveJButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SaveJButtonMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout userJPanelLayout = new javax.swing.GroupLayout(userJPanel);
         userJPanel.setLayout(userJPanelLayout);
@@ -97,7 +114,7 @@ public class CreateCardAccountJPanel extends javax.swing.JPanel {
             }
         });
 
-        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         SelectMechantJButton.setText("Select Merchant");
         SelectMechantJButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -109,9 +126,6 @@ public class CreateCardAccountJPanel extends javax.swing.JPanel {
         jLabel8.setText("Merchant");
 
         jLabel3.setText("Program");
-
-        jLabel4.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
-        jLabel4.setText("Merchant : ");
 
         merchantNameJLabel.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         merchantNameJLabel.setText("null");
@@ -127,8 +141,9 @@ public class CreateCardAccountJPanel extends javax.swing.JPanel {
         loyaltyProgramNameJLabel.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         loyaltyProgramNameJLabel.setText("null");
 
-        jLabel5.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
-        jLabel5.setText("Program:");
+        jLabel2.setText("Card Expiry Date");
+
+        jLabel6.setText("Starting Points");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -138,25 +153,29 @@ public class CreateCardAccountJPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(merchantNameJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(loyaltyProgramNameJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(SelectMechantJButton)
-                            .addComponent(jLabel8))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(merchantNameJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(SelectLoyaltyProgramJButton)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(84, 84, 84)
-                                .addComponent(jLabel3))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(82, 82, 82)
-                                .addComponent(SelectLoyaltyProgramJButton)))))
-                .addContainerGap(69, Short.MAX_VALUE))
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(loyaltyProgramNameJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(ExpiryDateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(pointsEarnedJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,18 +183,24 @@ public class CreateCardAccountJPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(merchantNameJLabel)
+                    .addComponent(loyaltyProgramNameJLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SelectMechantJButton)
                     .addComponent(SelectLoyaltyProgramJButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(merchantNameJLabel)
-                    .addComponent(jLabel4)
-                    .addComponent(loyaltyProgramNameJLabel)
-                    .addComponent(jLabel5))
-                .addContainerGap(13, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ExpiryDateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pointsEarnedJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout userJPanelNewLayout = new javax.swing.GroupLayout(userJPanelNew);
@@ -199,17 +224,17 @@ public class CreateCardAccountJPanel extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(CanelJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(SaveJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(userJPanelNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(userJPanelNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel1)
-                            .addComponent(userTypeJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(userTypeJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(userJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(26, 26, 26))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,11 +252,11 @@ public class CreateCardAccountJPanel extends javax.swing.JPanel {
                         .addComponent(userJPanelNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 260, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CanelJButton)
-                    .addComponent(jButton2))
-                .addContainerGap())
+                    .addComponent(SaveJButton))
+                .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
     private void CanelJButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CanelJButtonMouseClicked
@@ -307,19 +332,85 @@ public class CreateCardAccountJPanel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_SelectLoyaltyProgramJButtonMouseClicked
 
+    private void SaveJButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SaveJButtonMouseClicked
+        //Check if the user exisit already
+        if(Customer.userExist(newCustomerJPanel.getEmail())){
+            JOptionPane.showMessageDialog(mainJFrame,
+                "A user already exist with this email address.",
+                "User Exist",  JOptionPane.WARNING_MESSAGE);
+        }
+        else if(Customer.TRNExist(newCustomerJPanel.getTRN())){
+            JOptionPane.showMessageDialog(mainJFrame,
+                "A user already exist with this trn address.",
+                "User Exist",  JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            try {
+                Customer customer = new Customer(
+                        this.newCustomerJPanel.getFName(),
+                        this.newCustomerJPanel.getLName(),
+                        this.newCustomerJPanel.getEmail(),
+                        this.newCustomerJPanel.getPssword(),
+                        this.newCustomerJPanel.getGender(),
+                        this.newCustomerJPanel.getDOB(),
+                        this.newCustomerJPanel.getTRN(),
+                        this.newCustomerJPanel.getPhone()
+                );
+                //Customer need to be stored so that it can get a id number for the user
+                //The user_id will be used in the creation of the cardAccount if the user is 
+                //new.
+                customer.store(); 
+                
+                CardAccount cardAccount = new CardAccount(
+                        customer,
+                        (new SimpleDateFormat("yyy-MM-dd")).parse(ExpiryDateJTextField.getText()),
+                        this.csaUser,
+                        Integer.parseInt(pointsEarnedJTextField.getText()),
+                        selectLoyaltyProgramJFrame.getSelectedLoyaltyProgram()
+                );
+                cardAccount.store(); 
+                
+                JOptionPane.showMessageDialog(mainJFrame,
+                    String.format("The card account for %s %s was saved sucessfully.",
+                            this.newCustomerJPanel.getFName(),
+                            this.newCustomerJPanel.getLName()),
+                    "Saved Succesfull",  JOptionPane.INFORMATION_MESSAGE);
+                
+                mainJFrame.getContentPane().remove(this);
+                mainJFrame.getContentPane().add(previousJPanel);
+
+                mainJFrame.getContentPane().invalidate();
+                mainJFrame.getContentPane().revalidate();
+                mainJFrame.getContentPane().repaint();
+
+                mainJFrame.setTitle(previousTitle);
+                
+            } catch (SQLException e) {
+                System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            }
+            catch (ParseException e){
+                System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            }
+            
+        }
+        
+    }//GEN-LAST:event_SaveJButtonMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CanelJButton;
+    private javax.swing.JTextField ExpiryDateJTextField;
+    private javax.swing.JButton SaveJButton;
     private javax.swing.JButton SelectLoyaltyProgramJButton;
     private javax.swing.JButton SelectMechantJButton;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel loyaltyProgramNameJLabel;
     private javax.swing.JLabel merchantNameJLabel;
+    private javax.swing.JTextField pointsEarnedJTextField;
     private javax.swing.JPanel userJPanel;
     private javax.swing.JPanel userJPanelNew;
     private javax.swing.JComboBox userTypeJComboBox;

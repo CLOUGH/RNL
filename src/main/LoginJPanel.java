@@ -26,6 +26,8 @@ public class LoginJPanel extends javax.swing.JPanel {
     public LoginJPanel(JFrame mainJFrame) {
         initComponents();
         this.mainJFrame = mainJFrame;
+        this.mainJFrame.setPreferredSize(this.getPreferredSize());
+        this.mainJFrame.pack();
     }
 
     /**
@@ -75,12 +77,9 @@ public class LoginJPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
+                .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(loginJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -89,9 +88,9 @@ public class LoginJPanel extends javax.swing.JPanel {
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(passwordJField, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                            .addComponent(emailJFrield))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(passwordJField)
+                            .addComponent(emailJFrield, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,7 +106,7 @@ public class LoginJPanel extends javax.swing.JPanel {
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addComponent(loginJButton)
-                .addContainerGap(254, Short.MAX_VALUE))
+                .addContainerGap(213, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

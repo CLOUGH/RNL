@@ -27,6 +27,7 @@ public class Merchant {
                 this.phone = resultSet.getString("phone_number");
                 this.address = resultSet.getString("address");
             }
+            db.close();
         }catch(Exception e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
@@ -45,6 +46,7 @@ public class Merchant {
                 Merchant merchant = new Merchant(resultSet.getInt("reg_num"));
                 merchants.add(merchant);
             }
+            db.close();
         }catch(Exception e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);

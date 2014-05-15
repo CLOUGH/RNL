@@ -18,6 +18,8 @@ public class CSAMainMenu extends javax.swing.JPanel {
         nameJLabel.setText(csaUser.getName());
         jLabel4.setText(csaUser.getType());
         
+        this.mainJFrame.setPreferredSize(this.getPreferredSize());
+        this.mainJFrame.pack();
         
     }
 

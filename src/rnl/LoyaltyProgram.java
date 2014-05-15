@@ -1,8 +1,10 @@
 package rnl;
 
-import java.sql.Date;
+
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class LoyaltyProgram {
     private int id;
@@ -14,7 +16,7 @@ public class LoyaltyProgram {
     private String description;
     
     public LoyaltyProgram(int id){
-        SQLiteJDBC db = new SQLiteJDBC();
+       SQLiteJDBC db = new SQLiteJDBC();
 
        String sql = String.format("SELECT * FROM loyalty_programs WHERE id ='%d'", id);
        ResultSet resultSet = db.query(sql);
@@ -23,11 +25,12 @@ public class LoyaltyProgram {
                 this.id = resultSet.getInt("id");
                 this.merchant = new Merchant(resultSet.getInt("merchant"));
                 this.program_name = resultSet.getString("program_name");
-                this.start_date = resultSet.getDate("start_date");
-                this.end_date = resultSet.getDate("end_date");
+                this.start_date = (new SimpleDateFormat("yyy-MM-dd")).parse(resultSet.getString("start_date"));
+                this.end_date = (new SimpleDateFormat("yyy-MM-dd")).parse(resultSet.getString("end_date"));
                 this.program_type = resultSet.getString("program_type");
                 this.description = resultSet.getString("description");
             }
+            db.close();
         }catch(Exception e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
@@ -46,6 +49,7 @@ public class LoyaltyProgram {
                 LoyaltyProgram loyaltyProgram = new LoyaltyProgram(resultSet.getInt("id"));
                 loyaltyPrograms.add(loyaltyProgram);
             }
+            db.close();            
         }catch(Exception e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);

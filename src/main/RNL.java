@@ -26,8 +26,6 @@ public class RNL {
        //Add the main pannel to jframe
        LoginJPanel mainJPanel =  new LoginJPanel(mainJFrame);
        mainJFrame.add(mainJPanel);
-       
-       mainJFrame.pack();
        mainJFrame.setVisible(true);    
     }    
 }

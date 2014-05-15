@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.BorderLayout;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JFrame;
@@ -175,8 +176,8 @@ public class SelectLoyaltyProgramJFrame extends javax.swing.JFrame {
         Object[] row = new Object[]{
             loyaltyProgram.getID(),
             loyaltyProgram.getProgramName(),
-            loyaltyProgram.getStartDate(),
-            loyaltyProgram.getEndDate(),
+            (new SimpleDateFormat("dd-MM-yyyy")).format(loyaltyProgram.getStartDate()),
+            (new SimpleDateFormat("dd-MM-yyyy")).format(loyaltyProgram.getEndDate()),
             loyaltyProgram.getProgramType()
         };
         tableModel.addRow(row);
